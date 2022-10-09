@@ -53,6 +53,7 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         Node parent = null;
         Node current = root;
         while (null != current) {
+//            int cmp = element.compareTo(current.getValue());
             int cmp = compare(element, current.getValue());
             if (0 > cmp) {
                 parent = current;
