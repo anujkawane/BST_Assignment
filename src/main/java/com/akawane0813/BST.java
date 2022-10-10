@@ -1,11 +1,13 @@
 package com.akawane0813;
 
+import com.akawane0813.model.INode;
+
 import java.util.*;
 import java.util.function.Consumer;
 
 public final class BST<T extends Comparable<T>> extends TreeSet<T> {
 
-    private Node root;
+    private INode root;
     private int size;
     private Comparator<? super T> comparator;
 
@@ -50,32 +52,33 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
     public boolean add(T element) {
         if (null == element) throw new NullPointerException();
 
-        Node parent = null;
-        Node current = root;
+        INode parent = null;
+        INode current = root;
         while (null != current) {
-//            int cmp = element.compareTo(current.getValue());
-            int cmp = compare(element, current.getValue());
-            if (0 > cmp) {
-                parent = current;
+            int comparison = compare(element, current.getElement());
+            parent = current;
+            if (0 > comparison) {
                 current = current.getLeft();
             }
-            else if (0 < cmp) {
-                parent = current;
+            else if (0 < comparison) {
                 current = current.getRight();
             }
             else {
-                return false; // ignoring Duplicate
+                current = current.getLeft();
             }
         }
 
         if (null == parent) {
-            root = new Node(element);
+            INode rootNode = new Node(element);
+            root = rootNode;
         }
-        else if (0 > compare(element, parent.getValue())) {
-            parent.setLeft(new Node(element));
+        else if (0 > compare(element, parent.getElement())) {
+            INode leftNode = new Node(element);
+            parent.setLeft(leftNode);
         }
         else {
-            parent.setRight(new Node(element));
+            INode rightNode = new Node(element);
+            parent.setRight(rightNode);
         }
         ++size;
         return true;
@@ -96,11 +99,11 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         return result;
     }
 
-    private void inorder(List<T> result, Node current) {
+    private void inorder(List<T> result, INode current) {
         if (null == current) return;
 
         inorder(result, current.getLeft());
-        result.add(current.getValue());
+        result.add((T) current.getElement());
         inorder(result, current.getRight());
     }
 
@@ -111,12 +114,12 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
     }
 
 
-    private void toStringInorder(StringBuilder sb, Node current) {
+    private void toStringInorder(StringBuilder sb, INode current) {
         if (null == current) return;
 
         toStringInorder(sb, current.getLeft());
         if (1 < sb.length()) sb.append(", ");
-        sb.append(current.getValue());
+        sb.append(current.getElement());
         toStringInorder(sb, current.getRight());
     }
 
@@ -126,10 +129,10 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         return result;
     }
 
-    private void preorder(List<T> result, Node current) {
+    private void preorder(List<T> result, INode current) {
         if (null == current) return;
 
-        result.add(current.getValue());
+        result.add((T) current.getElement());
         preorder(result, current.getLeft());
         preorder(result, current.getRight());
     }
@@ -140,12 +143,12 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         return result;
     }
 
-    private void postorder(List<T> result, Node current) {
+    private void postorder(List<T> result, INode current) {
         if (null == current) return;
 
         postorder(result, current.getLeft());
         postorder(result, current.getRight());
-        result.add(current.getValue());
+        result.add((T) current.getElement());
     }
 
     @Override
@@ -154,37 +157,81 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
     }
     
 
-    private class Node {
-        private T value;
-        private Node left;
-        private Node right;
+    private class Node implements INode<T> {
+        private T element;
+        private INode left;
+        private INode right;
 
-        public T getValue() {
-            return value;
+        public Node(T element) {
+            this.element = element;
         }
 
-        public void setValue(T value) {
-            this.value = value;
+        @Override
+        public T getElement() {
+            return this.element;
         }
 
-        public Node getLeft() {
-            return left;
+        @Override
+        public void setElement(T element) {
+            this.element = element;
         }
 
-        public void setLeft(Node left) {
+        @Override
+        public INode getLeft() {
+            return this.left;
+        }
+
+        @Override
+        public void setLeft(INode left) {
             this.left = left;
         }
 
-        public Node getRight() {
-            return right;
+        @Override
+        public INode getRight() {
+            return this.right;
         }
 
-        public void setRight(Node right) {
+        @Override
+        public void setRight(INode right) {
             this.right = right;
         }
+    }
 
-        public Node(T value) {
-            this.value = value;
+    private class NullNode implements INode<T> {
+        private T element;
+
+        public NullNode() {
+
+        }
+
+        @Override
+        public T getElement() {
+            return null;
+        }
+
+        @Override
+        public void setElement(T element) {
+
+        }
+
+        @Override
+        public INode getLeft() {
+            return null;
+        }
+
+        @Override
+        public void setLeft(INode left) {
+
+        }
+
+        @Override
+        public INode getRight() {
+            return null;
+        }
+
+        @Override
+        public void setRight(INode right) {
+
         }
     }
 }
