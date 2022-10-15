@@ -48,6 +48,7 @@ public class Student implements Comparable<Student> {
         this.gpa = gpa;
     }
 
+
     @Override
     public int compareTo(Student object) {
         return Double.compare(this.getRedId(),(object.getRedId()));
@@ -56,9 +57,9 @@ public class Student implements Comparable<Student> {
     @Override
     public String toString() {
         return "Student{" +
-                "redId=" + redId +
-                ", name='" + lastName + " " + firstName +'\'' +
-                ", gpa=" + gpa +
+                "RedId= " + redId +
+                ", Name= " + lastName + " " + firstName +
+                ", Gpa= " + gpa +
                 '}';
     }
 }

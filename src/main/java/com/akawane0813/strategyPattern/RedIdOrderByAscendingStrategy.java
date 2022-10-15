@@ -4,9 +4,9 @@ import com.akawane0813.Student;
 
 import java.util.Comparator;
 
-public class RedIdAscendingOrderingStrategy implements OrderingStrategy {
+public class RedIdOrderByAscendingStrategy implements OrderStrategy {
     @Override
-    public Comparator<Student> sort() {
+    public Comparator<Student> order() {
         return Comparator.comparing(Student::getRedId);
     }
 }

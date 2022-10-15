@@ -1,11 +1,12 @@
 package com.akawane0813;
 
 import com.akawane0813.model.INode;
+import com.akawane0813.visitorPattern.Visitor;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-public final class BST<T extends Comparable<T>> extends TreeSet<T> {
+public final class BST<T extends Comparable<T>> {
 
     private INode root;
     private int size;
@@ -15,23 +16,21 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         this.comparator = null;
     }
 
-
-
     public BST(Comparator<? super T> comparator) {
         this.comparator = comparator;
     }
 
-    public void addAllEle(Iterable<T> elements) {
+    public void addAll(Iterable<T> elements) {
         if (null == elements) throw new NullPointerException();
 
-        Iterator<T> itr = elements.iterator();
-        while (itr.hasNext()) {
-            T elem = itr.next();
-            if (null != elem) add(elem);
+        Iterator<T> iterator = elements.iterator();
+        while (iterator.hasNext()) {
+            T elemement = iterator.next();
+            if (null != elemement) add(elemement);
         }
     }
 
-    int compare(Object e1, Object e2) {
+    public int compare(Object e1, Object e2) {
         return comparator == null ? ((Comparable<? super T>) e1).compareTo((T) e2)
                 : comparator.compare((T) e1, (T) e2);
     }
@@ -45,46 +44,21 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
     }
 
     public void clear() {
-        root = null;
+        root = new NullNode();
         size = 0;
     }
 
     public boolean add(T element) {
-        if (null == element) throw new NullPointerException();
-
-        INode parent = null;
-        INode current = root;
-        while (null != current) {
-            int comparison = compare(element, current.getElement());
-            parent = current;
-            if (0 > comparison) {
-                current = current.getLeft();
-            }
-            else if (0 < comparison) {
-                current = current.getRight();
-            }
-            else {
-                current = current.getLeft();
-            }
+        if(isEmpty()){
+            root = new Node(element);
+        }else{
+            INode newNode = new Node(element);
+            root.add(root, newNode);
         }
-
-        if (null == parent) {
-            INode rootNode = new Node(element);
-            root = rootNode;
-        }
-        else if (0 > compare(element, parent.getElement())) {
-            INode leftNode = new Node(element);
-            parent.setLeft(leftNode);
-        }
-        else {
-            INode rightNode = new Node(element);
-            parent.setRight(rightNode);
-        }
-        ++size;
+        size++;
         return true;
     }
 
-    @Override
     public void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
         List<T> list = inorder();
@@ -123,16 +97,16 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         toStringInorder(sb, current.getRight());
     }
 
-    public List<T> preorder() {
-        List<T> result = new ArrayList<>(size);
+    public List<INode> preorder() {
+        List<INode> result = new ArrayList<>(size);
         preorder(result, root);
         return result;
     }
 
-    private void preorder(List<T> result, INode current) {
+    private void preorder(List<INode> result, INode current) {
         if (null == current) return;
 
-        result.add((T) current.getElement());
+        result.add(current);
         preorder(result, current.getLeft());
         preorder(result, current.getRight());
     }
@@ -157,13 +131,15 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
     }
     
 
-    private class Node implements INode<T> {
+    public class Node<T extends Comparable<T>> implements INode<T> {
         private T element;
         private INode left;
         private INode right;
 
         public Node(T element) {
             this.element = element;
+            this.left = new NullNode();
+            this.right = new NullNode();
         }
 
         @Override
@@ -195,9 +171,25 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         public void setRight(INode right) {
             this.right = right;
         }
+
+        @Override
+        public boolean add(INode parent, INode newNode) {
+            int comparison = compare(this.element, newNode.getElement());
+            if(comparison < 0){
+                this.getRight().add(this, newNode);
+            }else {
+                this.getLeft().add(this, newNode);
+            }
+            return true;
+        }
+
+        @Override
+        public int accept(Visitor visitor) {
+            return visitor.visit(this);
+        }
     }
 
-    private class NullNode implements INode<T> {
+    public class NullNode implements INode<T> {
         private T element;
 
         public NullNode() {
@@ -232,6 +224,22 @@ public final class BST<T extends Comparable<T>> extends TreeSet<T> {
         @Override
         public void setRight(INode right) {
 
+        }
+
+        @Override
+        public boolean add(INode parent, INode newNode) {
+            int comparison = compare(parent.getElement(), newNode.getElement());
+            if(comparison < 0){
+                parent.setRight(newNode);
+            }else{
+                parent.setLeft(newNode);
+            }
+            return true;
+        }
+
+        @Override
+        public int accept(Visitor visitor) {
+             return visitor.visit(this);
         }
     }
 }
