@@ -1,4 +1,4 @@
-package com.akawane0813;
+package com.akawane0813.model;
 /**
  * A Student has a redid, FirstName, LastName and GPA.
  * @author Anuj Kawane <akawane0813@sdsu.edu>
@@ -56,10 +56,6 @@ public class Student implements Comparable<Student> {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "RedId= " + redId +
-                ", Name= " + lastName + " " + firstName +
-                ", Gpa= " + gpa +
-                '}';
+        return "{ " + "RedId= " + redId + ", Name= " + lastName + " " + firstName + ", Gpa= " + gpa + " }";
     }
 }

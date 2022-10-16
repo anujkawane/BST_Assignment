@@ -2,6 +2,8 @@ package com.akawane0813.model;
 
 import com.akawane0813.visitorPattern.Visitor;
 
+import java.util.List;
+
 public interface INode<T extends Comparable<T>>{
 
     T getElement();
@@ -11,7 +13,8 @@ public interface INode<T extends Comparable<T>>{
     INode getRight();
     void setRight(INode right);
     boolean add(INode parent, INode newNode);
-
-    int accept(Visitor visitor);
+    void addNode(List<T> result);
+    void accept(Visitor visitor);
+    boolean isElement(T element);
 
 }

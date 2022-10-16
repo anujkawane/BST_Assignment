@@ -6,17 +6,18 @@ import com.akawane0813.visitorPattern.Visitor;
 import java.util.*;
 import java.util.function.Consumer;
 
-public final class BST<T extends Comparable<T>> {
+public final class BinarySearchTree<T extends Comparable<T>> {
 
     private INode root;
+
     private int size;
     private Comparator<? super T> comparator;
 
-    public BST() {
+    public BinarySearchTree() {
         this.comparator = null;
     }
 
-    public BST(Comparator<? super T> comparator) {
+    public BinarySearchTree(Comparator<? super T> comparator) {
         this.comparator = comparator;
     }
 
@@ -25,8 +26,8 @@ public final class BST<T extends Comparable<T>> {
 
         Iterator<T> iterator = elements.iterator();
         while (iterator.hasNext()) {
-            T elemement = iterator.next();
-            if (null != elemement) add(elemement);
+            T element = iterator.next();
+            if (null != element) add(element);
         }
     }
 
@@ -59,77 +60,35 @@ public final class BST<T extends Comparable<T>> {
         return true;
     }
 
+    public boolean contains(T element){
+        if(isEmpty()) return false;
+
+        return root.isElement(element);
+    }
+
     public void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
-        List<T> list = inorder();
+        List<T> list = getSortedNodes();
         for (T e : list) {
             action.accept(e);
         }
     }
 
-    public List<T> inorder() {
+    public List<T> getSortedNodes() {
         List<T> result = new ArrayList<>(size);
-        inorder(result, root);
+        getSortedNodes(result, root);
         return result;
     }
 
-    private void inorder(List<T> result, INode current) {
-        if (null == current) return;
+    private void getSortedNodes(List<T> result, INode current) {
+        if(isEmpty()) return;
 
-        inorder(result, current.getLeft());
-        result.add((T) current.getElement());
-        inorder(result, current.getRight());
+        current.addNode(result);
     }
 
-    public String toStringInorder() {
-        StringBuilder sb = new StringBuilder("[");
-        toStringInorder(sb, root);
-        return sb.append("]").toString();
+    public INode getRoot() {
+        return root;
     }
-
-
-    private void toStringInorder(StringBuilder sb, INode current) {
-        if (null == current) return;
-
-        toStringInorder(sb, current.getLeft());
-        if (1 < sb.length()) sb.append(", ");
-        sb.append(current.getElement());
-        toStringInorder(sb, current.getRight());
-    }
-
-    public List<INode> preorder() {
-        List<INode> result = new ArrayList<>(size);
-        preorder(result, root);
-        return result;
-    }
-
-    private void preorder(List<INode> result, INode current) {
-        if (null == current) return;
-
-        result.add(current);
-        preorder(result, current.getLeft());
-        preorder(result, current.getRight());
-    }
-
-    public List<T> postorder() {
-        List<T> result = new ArrayList<>(size);
-        postorder(result, root);
-        return result;
-    }
-
-    private void postorder(List<T> result, INode current) {
-        if (null == current) return;
-
-        postorder(result, current.getLeft());
-        postorder(result, current.getRight());
-        result.add((T) current.getElement());
-    }
-
-    @Override
-    public String toString() {
-        return toStringInorder();
-    }
-    
 
     public class Node<T extends Comparable<T>> implements INode<T> {
         private T element;
@@ -184,8 +143,26 @@ public final class BST<T extends Comparable<T>> {
         }
 
         @Override
-        public int accept(Visitor visitor) {
-            return visitor.visit(this);
+        public void accept(Visitor visitor) {
+            visitor.visit(this);
+        }
+
+        @Override
+        public boolean isElement(T element) {
+            if(compare(this.getElement(), element) == 0)
+                return true;
+            else if(compare(this.getElement(), element) > 0){
+                return this.getLeft().isElement(element);
+            }else{
+                return this.getRight().isElement(element);
+            }
+        }
+
+        public void addNode(List<T> result){
+            this.getLeft().addNode(result);
+            result.add(this.getElement());
+            this.getRight().addNode(result);
+            return;
         }
     }
 
@@ -238,8 +215,17 @@ public final class BST<T extends Comparable<T>> {
         }
 
         @Override
-        public int accept(Visitor visitor) {
-             return visitor.visit(this);
+        public void accept(Visitor visitor) {
+            visitor.visit(this);
+        }
+
+        @Override
+        public boolean isElement(T element) {
+            return false;
+        }
+
+        public void addNode(List<T> result){
+            return;
         }
     }
 }
