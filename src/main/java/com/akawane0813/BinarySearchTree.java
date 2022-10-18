@@ -2,13 +2,13 @@ package com.akawane0813;
 
 import com.akawane0813.model.INode;
 import com.akawane0813.visitorPattern.Visitor;
-
 import java.util.*;
 import java.util.function.Consumer;
 
 /**
  * Binary search tree implementation with Null Object Pattern to avoid the null checks.
  * @param <T> the type of elements in this tree
+ * @author Anuj Kawane <akawane0813@sdsu.edu>
  */
 public class BinarySearchTree<T extends Comparable<T>> {
 
@@ -17,23 +17,23 @@ public class BinarySearchTree<T extends Comparable<T>> {
     private int size;
 
     /**
-     * Initializes binary search tree with default order (Order by RedID)
+     * Initializes empty binary search tree with default order (Order by RedID)
      */
     public BinarySearchTree() {
-        init();
+        initialize();
         this.comparator = null;
     }
 
     /**
-     * Initializes binary search tree with provided strategy to order the tree nodes.
+     * Initializes empty binary search tree with provided strategy to order the tree nodes.
      * @param comparator strategy to order the tree
      */
     public BinarySearchTree(Comparator<? super T> comparator) {
-        init();
+        initialize();
         this.comparator = comparator;
     }
 
-    private void init() {
+    private void initialize() {
         this.size = 0;
         this.root = new NullNode();
     }
@@ -54,6 +54,12 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return true;
     }
 
+    /**
+     * Compares two objects depending upon default or provided strategy to order the tree
+     * @param e1 Object 1
+     * @param e2 Object 2
+     * @return 0 / +ve / -ve value depending on comparison
+     */
     private int compare(Object e1, Object e2) {
         return comparator == null ? ((Comparable<? super T>) e1).compareTo((T) e2)
                 : comparator.compare((T) e1, (T) e2);
@@ -79,11 +85,12 @@ public class BinarySearchTree<T extends Comparable<T>> {
      * Remove all elements from the binary search tree.
      */
     public void clear() {
-        init();
+        this.size = 0;
+        this.root = new NullNode();
     }
 
     /**
-     * Inserts an element into the binary search tree
+     * Inserts an element into the binary search tree depending upon tree ordering strategy
      * @param element Object be inserted into the tree
      * @return true if element inserted
      */
@@ -103,12 +110,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
      * @param element Object to search
      * @return true if tree contains given element, false otherwise.
      */
-    public boolean contains(T element){
+    public boolean contains(T element) {
         if(isEmpty()) return false;
 
         return root.contains(element);
     }
-
 
     /**
      * Performs the given action for each element of the tree until all elements have been

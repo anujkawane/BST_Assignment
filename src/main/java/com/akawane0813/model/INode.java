@@ -3,7 +3,7 @@ package com.akawane0813.model;
 import com.akawane0813.visitorPattern.Visitor;
 import java.util.function.Consumer;
 
-public interface INode<T extends Comparable<T>>{
+public interface INode<T extends Comparable<T>> {
 
     T getElement();
 
@@ -24,5 +24,4 @@ public interface INode<T extends Comparable<T>>{
     boolean contains(T element);
 
     void apply(Consumer<? super T> action);
-
 }

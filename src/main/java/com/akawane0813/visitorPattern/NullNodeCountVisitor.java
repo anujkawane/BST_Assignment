@@ -8,29 +8,38 @@ import com.akawane0813.BinarySearchTree;
  */
 public class NullNodeCountVisitor implements Visitor {
 
-    private int countNullNode;
+    private int nullNodeCount;
 
     public NullNodeCountVisitor() {
-        this.countNullNode = 0;
+        this.nullNodeCount = 0;
     }
 
+    /**
+     * Traverse tree actual node and pass call to its left and right
+     * @param node current node of type Node
+     */
     @Override
     public void visit(BinarySearchTree.Node node) {
         node.getLeft().accept(this);
         node.getRight().accept(this);
     }
 
+    /**
+     * Count number of Null nodes in tree by visiting this method.
+     * Increment count if Null node occurs in traversal
+     * @param node current node of type Null Node
+     */
     @Override
     public void visit(BinarySearchTree.NullNode node) {
-        countNullNode++;
+        nullNodeCount++;
     }
 
     /**
      * Return count of null nodes present in binary search tree
      * @return count of null nodes
      */
-    public int getCountNullNode() {
-        return countNullNode;
+    public int getNullNodeCount() {
+        return nullNodeCount;
     }
 
 }

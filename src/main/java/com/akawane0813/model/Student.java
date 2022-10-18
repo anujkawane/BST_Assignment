@@ -3,7 +3,7 @@ package com.akawane0813.model;
 import java.util.Objects;
 
 /**
- * A Student has a redid, FirstName, LastName and GPA.
+ * A Student has a Redid, FirstName, LastName and GPA.
  * @author Anuj Kawane <akawane0813@sdsu.edu>
  */
 public class Student implements Comparable<Student> {

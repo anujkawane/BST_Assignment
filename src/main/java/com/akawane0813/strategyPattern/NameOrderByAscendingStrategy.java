@@ -1,7 +1,6 @@
 package com.akawane0813.strategyPattern;
 
 import com.akawane0813.model.Student;
-
 import java.util.Comparator;
 
 /**

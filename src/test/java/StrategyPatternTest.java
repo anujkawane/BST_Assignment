@@ -2,8 +2,6 @@ import com.akawane0813.BinarySearchTree;
 import com.akawane0813.model.Student;
 import com.akawane0813.strategyPattern.*;
 import org.junit.jupiter.api.Test;
-
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +13,7 @@ public class StrategyPatternTest {
     private List<Student> testData = new TestData().getTestData();
 
     @Test
-    public void testGpaOrderByAscendingStrategy(){
+    public void testGpaOrderByAscendingStrategy() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new GpaOrderByAscendingStrategy().getOrder());
         bst.addAll(testData);
         Comparator<Student> comparator = (Student object1,Student object2)-> {
@@ -32,11 +30,10 @@ public class StrategyPatternTest {
 
         bst.forEach(actualOrder::add);
         assertEquals(expectedOrder, actualOrder);
-
     }
 
     @Test
-    public void testGpaOrderByDescendingStrategy(){
+    public void testGpaOrderByDescendingStrategy() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new GpaOrderByDescendingStrategy().getOrder());
         bst.addAll(testData);
         Comparator<Student> comparator = (Student object1,Student object2)-> {
@@ -56,7 +53,7 @@ public class StrategyPatternTest {
     }
 
     @Test
-    public void testNameOrderByAscendingStrategy(){
+    public void testNameOrderByAscendingStrategy() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new NameOrderByAscendingStrategy().getOrder());
 
         bst.addAll(testData);
@@ -69,7 +66,7 @@ public class StrategyPatternTest {
     }
 
     @Test
-    public void testNameOrderByDescendingStrategy(){
+    public void testNameOrderByDescendingStrategy() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new NameOrderByDescendingStrategy().getOrder());
 
         bst.addAll(testData);
@@ -82,7 +79,7 @@ public class StrategyPatternTest {
     }
 
     @Test
-    public void testRedIdOrderByAscendingStrategy(){
+    public void testRedIdOrderByAscendingStrategy() {
 
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new RedIdOrderByAscendingStrategy().getOrder());
 
@@ -96,7 +93,7 @@ public class StrategyPatternTest {
     }
 
     @Test
-    public void testRedIdOrderByDescendingStrategy(){
+    public void testRedIdOrderByDescendingStrategy() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>(new RedIdOrderByDescendingStrategy().getOrder());
 
         bst.addAll(testData);
@@ -109,7 +106,7 @@ public class StrategyPatternTest {
     }
 
     @Test
-    public void testDefaultOrder(){
+    public void testDefaultOrder() {
         BinarySearchTree<Student> bst = new BinarySearchTree<>();
 
         bst.addAll(testData);
