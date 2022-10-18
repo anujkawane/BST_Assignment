@@ -1,7 +1,6 @@
 package com.akawane0813.model;
 
 import com.akawane0813.visitorPattern.Visitor;
-
 import java.util.List;
 
 public interface INode<T extends Comparable<T>>{

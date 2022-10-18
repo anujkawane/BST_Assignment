@@ -9,19 +9,23 @@ import java.util.function.Consumer;
 public final class BinarySearchTree<T extends Comparable<T>> {
 
     private INode root;
-
-    private int size;
     private Comparator<? super T> comparator;
+    private int size;
 
+    /**
+     * Initializes binary search tree with default order
+     */
     public BinarySearchTree() {
+        this.size = 0;
         this.comparator = null;
     }
 
     public BinarySearchTree(Comparator<? super T> comparator) {
+        this.size = 0;
         this.comparator = comparator;
     }
 
-    public void addAll(Iterable<T> elements) {
+    public boolean addAll(Iterable<T> elements) {
         if (null == elements) throw new NullPointerException();
 
         Iterator<T> iterator = elements.iterator();
@@ -29,6 +33,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
             T element = iterator.next();
             if (null != element) add(element);
         }
+        return true;
     }
 
     public int compare(Object e1, Object e2) {
@@ -68,8 +73,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
 
     public void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
-        List<T> list = getSortedNodes();
-        for (T e : list) {
+        for (T e : getSortedNodes()) {
             action.accept(e);
         }
     }

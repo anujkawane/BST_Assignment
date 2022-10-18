@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public class NameOrderByDescendingStrategy implements OrderStrategy {
     @Override
-    public Comparator<Student> order() {
+    public Comparator<Student> getOrder() {
         return Comparator.comparing(Student::getLastName)
                 .thenComparing(Student::getFirstName).reversed();
     }

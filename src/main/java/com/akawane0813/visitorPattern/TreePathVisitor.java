@@ -10,7 +10,6 @@ import java.util.List;
 
 public class TreePathVisitor implements Visitor{
 
-
     HashMap<INode, Integer> map = new HashMap<>();
     HashMap<INode, Integer> leafCount = new HashMap<>();
     List<Integer> result = new ArrayList<>();
@@ -47,8 +46,7 @@ public class TreePathVisitor implements Visitor{
 
     public Double getAveragePathLength(){
         List<INode> leafNodes = getLeafNodes();
-
-        int sum  = 0, count = 0;
+        int sum  = 0;
         for(INode node : leafNodes){
             sum += map.get(node);
         }

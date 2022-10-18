@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public class GpaOrderByAscendingStrategy implements OrderStrategy {
     @Override
-    public Comparator<Student> order() {
+    public Comparator<Student> getOrder() {
         Comparator<Student> comparator = (Student object1,Student object2)-> {
             Integer b1 = (int) Math.round(object1.getGpa());
             Integer b2 = (int) Math.round(object2.getGpa());

@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public class RedIdOrderByAscendingStrategy implements OrderStrategy {
     @Override
-    public Comparator<Student> order() {
+    public Comparator<Student> getOrder() {
         return Comparator.comparing(Student::getRedId);
     }
 }
