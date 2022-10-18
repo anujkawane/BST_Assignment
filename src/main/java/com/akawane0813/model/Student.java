@@ -1,4 +1,7 @@
 package com.akawane0813.model;
+
+import java.util.Objects;
+
 /**
  * A Student has a redid, FirstName, LastName and GPA.
  * @author Anuj Kawane <akawane0813@sdsu.edu>
@@ -48,6 +51,18 @@ public class Student implements Comparable<Student> {
         this.gpa = gpa;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Double.compare(student.gpa, gpa) == 0 && redId.equals(student.redId) && firstName.equals(student.firstName) && lastName.equals(student.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(redId, firstName, lastName, gpa);
+    }
 
     @Override
     public int compareTo(Student object) {

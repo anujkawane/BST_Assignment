@@ -11,6 +11,7 @@ public class BinarySearchTreeTest {
     private List<Student> testData = Arrays.asList(
             new Student(825890105, "George", "Jones", 3.59),
             new Student(825890103, "Susan", "Smith", 3.67),
+            new Student(825890103, "Kshitij", "Smith", 3.67),
             new Student(825890102, "Kevin", "Williams",3.23),
             new Student(825890104, "Anthony", "Harris",2.49),
             new Student(825890101, "AnIan", "Vazquezuj",3.99),
@@ -26,9 +27,8 @@ public class BinarySearchTreeTest {
 
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         binarySearchTree.addAll(testData);
-        Student student = new Student(825890106, "Kristy", "Williams",4.0);
 
-        Assert.assertEquals(binarySearchTree.contains(student), true);
+        Assert.assertTrue(binarySearchTree.contains(testData.get(2)));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class BinarySearchTreeTest {
         binarySearchTree.addAll(testData);
         Student student = new Student(825890200, "Anuj", "Kawane",4.0);
 
-        Assert.assertEquals(binarySearchTree.contains(student), false);
+        Assert.assertFalse(binarySearchTree.contains(student));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class BinarySearchTreeTest {
         Student student = new Student(825890200, "Anuj", "Kawane",4.0);
         binarySearchTree.add(student);
 
-        Assert.assertEquals(binarySearchTree.contains(student), true);
+        Assert.assertTrue(binarySearchTree.add(student));
     }
 
     @Test
