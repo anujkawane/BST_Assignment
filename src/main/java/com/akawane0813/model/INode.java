@@ -2,6 +2,7 @@ package com.akawane0813.model;
 
 import com.akawane0813.visitorPattern.Visitor;
 import java.util.List;
+import java.util.function.Consumer;
 
 public interface INode<T extends Comparable<T>>{
 
@@ -15,5 +16,6 @@ public interface INode<T extends Comparable<T>>{
     void addNode(List<T> result);
     void accept(Visitor visitor);
     boolean isElement(T element);
+    void apply(Consumer<? super T> action);
 
 }

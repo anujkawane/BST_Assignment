@@ -6,6 +6,10 @@ import com.akawane0813.visitorPattern.Visitor;
 import java.util.*;
 import java.util.function.Consumer;
 
+/**
+ * Binary search tree implementation with Null Object Pattern to avoid the null checks.
+ * @param <T> the type of elements in this tree
+ */
 public final class BinarySearchTree<T extends Comparable<T>> {
 
     private INode root;
@@ -13,15 +17,17 @@ public final class BinarySearchTree<T extends Comparable<T>> {
     private int size;
 
     /**
-     * Initializes binary search tree with default order
+     * Initializes binary search tree with default order (Order by RedID)
      */
     public BinarySearchTree() {
         this.size = 0;
+        this.root = new NullNode();
         this.comparator = null;
     }
 
     public BinarySearchTree(Comparator<? super T> comparator) {
         this.size = 0;
+        this.root = new NullNode();
         this.comparator = comparator;
     }
 
@@ -36,7 +42,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
         return true;
     }
 
-    public int compare(Object e1, Object e2) {
+    private int compare(Object e1, Object e2) {
         return comparator == null ? ((Comparable<? super T>) e1).compareTo((T) e2)
                 : comparator.compare((T) e1, (T) e2);
     }
@@ -73,18 +79,16 @@ public final class BinarySearchTree<T extends Comparable<T>> {
 
     public void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
-        for (T e : getSortedNodes()) {
-            action.accept(e);
-        }
+        root.apply(action);
     }
 
-    public List<T> getSortedNodes() {
+    public List<T> inorder() {
         List<T> result = new ArrayList<>(size);
-        getSortedNodes(result, root);
+        inorder(result, root);
         return result;
     }
 
-    private void getSortedNodes(List<T> result, INode current) {
+    private void inorder(List<T> result, INode current) {
         if(isEmpty()) return;
 
         current.addNode(result);
@@ -162,11 +166,17 @@ public final class BinarySearchTree<T extends Comparable<T>> {
             }
         }
 
+        @Override
+        public void apply(Consumer<? super T> action) {
+            this.getLeft().apply(action);
+            action.accept(this.element);
+            this.getRight().apply(action);
+        }
+
         public void addNode(List<T> result){
             this.getLeft().addNode(result);
             result.add(this.getElement());
             this.getRight().addNode(result);
-            return;
         }
     }
 
@@ -226,6 +236,11 @@ public final class BinarySearchTree<T extends Comparable<T>> {
         @Override
         public boolean isElement(T element) {
             return false;
+        }
+
+        @Override
+        public void apply(Consumer<? super T> action) {
+
         }
 
         public void addNode(List<T> result){

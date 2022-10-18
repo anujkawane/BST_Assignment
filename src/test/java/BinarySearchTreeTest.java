@@ -51,14 +51,6 @@ public class BinarySearchTreeTest {
     }
 
     @Test
-    public void testSizeOfEmptyTree(){
-
-        BinarySearchTree binarySearchTree = new BinarySearchTree();
-
-        Assert.assertEquals(binarySearchTree.size(), 0);
-    }
-
-    @Test
     public void testAddElement(){
 
         BinarySearchTree binarySearchTree = new BinarySearchTree();

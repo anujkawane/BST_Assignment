@@ -2,9 +2,13 @@ package com.akawane0813.visitorPattern;
 
 import com.akawane0813.BinarySearchTree;
 
+/**
+ *  Visitor pattern to separate algorithms from BST implementation for checking number
+ *  of null nodes in given binary search tree.
+ */
 public class NullNodeCountVisitor implements Visitor {
 
-    static int countNullNode = 0;
+    private int countNullNode = 0;
 
     @Override
     public void visit(BinarySearchTree.Node node) {
@@ -15,10 +19,13 @@ public class NullNodeCountVisitor implements Visitor {
     @Override
     public void visit(BinarySearchTree.NullNode node) {
         countNullNode++;
-        return;
     }
 
-    public static int getCountNullNode() {
+    /**
+     * Return count of null nodes present in binary search tree
+     * @return count of null nodes
+     */
+    public int getCountNullNode() {
         return countNullNode;
     }
 

@@ -32,10 +32,10 @@ public class VisitorPatternTest {
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         binarySearchTree.addAll(testData);
 
-        Visitor visitor = new NullNodeCountVisitor();
+        NullNodeCountVisitor visitor = new NullNodeCountVisitor();
         binarySearchTree.getRoot().accept(visitor);
 
-        Assert.assertEquals(NullNodeCountVisitor.getCountNullNode(), 11);
+        Assert.assertEquals(visitor.getCountNullNode(), 11);
     }
 
     @Test
@@ -58,5 +58,25 @@ public class VisitorPatternTest {
         binarySearchTree.getRoot().accept(visitor);
 
         Assert.assertEquals((Object) visitor.getAveragePathLength(), 3.3333333333333335);
+    }
+
+    @Test
+    public void testAveragePathLengthOfEmptyTree(){
+        BinarySearchTree binarySearchTree = new BinarySearchTree();
+
+        TreePathVisitor visitor = new TreePathVisitor();
+        binarySearchTree.getRoot().accept(visitor);
+
+        Assert.assertEquals(visitor.getAveragePathLength(), (Object) 0.0);
+    }
+
+    @Test
+    public void testMaximumPathLengthOfEmptyTree(){
+        BinarySearchTree binarySearchTree = new BinarySearchTree();
+
+        TreePathVisitor visitor = new TreePathVisitor();
+        binarySearchTree.getRoot().accept(visitor);
+
+        Assert.assertEquals(visitor.getMaximumPathLength(), 0);
     }
 }
