@@ -5,7 +5,8 @@ import com.akawane0813.model.Student;
 import java.util.Comparator;
 
 /**
- * Descending order strategy to order tree by rounding student's gpa to nearest integer then order by RedId if rounded GPA is equal.
+ * Descending order strategy to order tree by rounding student's gpa to the nearest integer
+ * then order by RedId if rounded GPA is equal.
  */
 public class GpaOrderByDescendingStrategy implements OrderStrategy {
     @Override

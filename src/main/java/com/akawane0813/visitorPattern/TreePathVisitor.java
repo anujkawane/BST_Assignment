@@ -1,10 +1,8 @@
 package com.akawane0813.visitorPattern;
 import com.akawane0813.BinarySearchTree;
 import com.akawane0813.model.INode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 /**
  * Visitor pattern to separate algorithms from BST implementation for computing maximum path (root to leaf)
@@ -12,10 +10,15 @@ import java.util.List;
  */
 public class TreePathVisitor implements Visitor{
 
-    private HashMap<INode, Integer> map = new HashMap<>();
-    private HashMap<INode, Integer> leafCount = new HashMap<>();
-    private List<Integer> result = new ArrayList<>();
-    private INode current = null;
+    private Map<INode, Integer> map, leafCount;
+    private List<Integer> result;
+    private INode current;
+
+    public TreePathVisitor() {
+        this.map = new HashMap<>();
+        this.leafCount = new HashMap<>();
+        this.result = new ArrayList<>();
+    }
 
     @Override
     public void visit(BinarySearchTree.Node node) {

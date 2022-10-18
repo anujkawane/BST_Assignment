@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * Binary search tree implementation with Null Object Pattern to avoid the null checks.
  * @param <T> the type of elements in this tree
  */
-public final class BinarySearchTree<T extends Comparable<T>> {
+public class BinarySearchTree<T extends Comparable<T>> {
 
     private INode root;
     private Comparator<? super T> comparator;
@@ -20,8 +20,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
      * Initializes binary search tree with default order (Order by RedID)
      */
     public BinarySearchTree() {
-        this.size = 0;
-        this.root = new NullNode();
+        init();
         this.comparator = null;
     }
 
@@ -30,20 +29,24 @@ public final class BinarySearchTree<T extends Comparable<T>> {
      * @param comparator strategy to order the tree
      */
     public BinarySearchTree(Comparator<? super T> comparator) {
-        this.size = 0;
-        this.root = new NullNode();
+        init();
         this.comparator = comparator;
     }
 
+    private void init() {
+        this.size = 0;
+        this.root = new NullNode();
+    }
+
     /**
-     * Appends all of the elements in the specified collection to the tree ordered by given strategy of tree.
-     * @param elements collection containing elements to be added to this list
+     * Appends all the collection in the specified collection to the tree ordered by given strategy of tree.
+     * @param collection collection containing collection to be added to this list
      * @return true if this tree changed as a result of the call
      */
-    public boolean addAll(Iterable<T> elements) {
-        if (null == elements) throw new NullPointerException();
+    public boolean addAll(Iterable<T> collection) {
+        if (null == collection) throw new NullPointerException();
 
-        Iterator<T> iterator = elements.iterator();
+        Iterator<T> iterator = collection.iterator();
         while (iterator.hasNext()) {
             T element = iterator.next();
             if (null != element) add(element);
@@ -76,8 +79,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
      * Remove all elements from the binary search tree.
      */
     public void clear() {
-        root = new NullNode();
-        size = 0;
+        init();
     }
 
     /**
@@ -104,7 +106,7 @@ public final class BinarySearchTree<T extends Comparable<T>> {
     public boolean contains(T element){
         if(isEmpty()) return false;
 
-        return root.isElement(element);
+        return root.contains(element);
     }
 
 
@@ -116,27 +118,6 @@ public final class BinarySearchTree<T extends Comparable<T>> {
     public void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
         root.apply(action);
-    }
-
-    /**
-     * Returns inorder(left -> root -> right) list of the binary search tree.
-     * @return List of inorder (Sorted) elements.
-     */
-    public List<T> inorder() {
-        List<T> result = new ArrayList<>(size);
-        inorder(result, root);
-        return result;
-    }
-
-    /**
-     * Appends node values to the resulting List.
-     * @param result resulting list in which node values are added.
-     * @param current node on which the add operation starts
-     */
-    private void inorder(List<T> result, INode current) {
-        if(isEmpty()) return;
-
-        current.addNode(result);
     }
 
     /**
@@ -222,15 +203,15 @@ public final class BinarySearchTree<T extends Comparable<T>> {
          * @return true if provided element matches with the current node element.
          */
         @Override
-        public boolean isElement(T element) {
+        public boolean contains(T element) {
             if(compare(this.getElement(), element) == 0){
                 if(this.getElement().equals(element))
                     return true;
-                return this.getLeft().isElement(element);
+                return this.getLeft().contains(element);
             } else if(compare(this.getElement(), element) > 0){
-                return this.getLeft().isElement(element);
+                return this.getLeft().contains(element);
             }else{
-                return this.getRight().isElement(element);
+                return this.getRight().contains(element);
             }
         }
 
@@ -245,19 +226,9 @@ public final class BinarySearchTree<T extends Comparable<T>> {
             this.getRight().apply(action);
         }
 
-        public void addNode(List<T> result){
-            this.getLeft().addNode(result);
-            result.add(this.getElement());
-            this.getRight().addNode(result);
-        }
     }
 
     public class NullNode implements INode<T> {
-        private T element;
-
-        public NullNode() {
-
-        }
 
         @Override
         public T getElement() {
@@ -313,17 +284,13 @@ public final class BinarySearchTree<T extends Comparable<T>> {
         }
 
         @Override
-        public boolean isElement(T element) {
+        public boolean contains(T element) {
             return false;
         }
 
         @Override
         public void apply(Consumer<? super T> action) {
 
-        }
-
-        public void addNode(List<T> result){
-            return;
         }
     }
 }

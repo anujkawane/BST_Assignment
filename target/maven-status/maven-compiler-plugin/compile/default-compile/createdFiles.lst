@@ -1,7 +1,6 @@
 com/akawane0813/BinarySearchTree.class
 com/akawane0813/strategyPattern/NameOrderByDescendingStrategy.class
 com/akawane0813/strategyPattern/RedIdOrderByDescendingStrategy.class
-com/akawane0813/TestClass.class
 com/akawane0813/strategyPattern/RedIdOrderByAscendingStrategy.class
 com/akawane0813/strategyPattern/NameOrderByAscendingStrategy.class
 com/akawane0813/model/INode.class

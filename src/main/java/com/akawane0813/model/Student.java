@@ -10,9 +10,9 @@ public class Student implements Comparable<Student> {
     private Integer redId;
     private String firstName;
     private String lastName;
-    private double gpa;
+    private Double gpa;
 
-    public Student(Integer redId, String firstName, String lastName, double gpa) {
+    public Student(Integer redId, String firstName, String lastName, Double gpa) {
         this.redId = redId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,11 +43,11 @@ public class Student implements Comparable<Student> {
         this.lastName = lastName;
     }
 
-    public double getGpa() {
+    public Double getGpa() {
         return gpa;
     }
 
-    public void setGpa(double gpa) {
+    public void setGpa(Double gpa) {
         this.gpa = gpa;
     }
 

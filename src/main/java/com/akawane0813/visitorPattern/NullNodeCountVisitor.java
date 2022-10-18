@@ -8,7 +8,11 @@ import com.akawane0813.BinarySearchTree;
  */
 public class NullNodeCountVisitor implements Visitor {
 
-    private int countNullNode = 0;
+    private int countNullNode;
+
+    public NullNodeCountVisitor() {
+        this.countNullNode = 0;
+    }
 
     @Override
     public void visit(BinarySearchTree.Node node) {
