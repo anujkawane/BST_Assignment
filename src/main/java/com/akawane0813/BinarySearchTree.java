@@ -12,8 +12,8 @@ import java.util.function.Consumer;
  */
 public class BinarySearchTree<T extends Comparable<T>> {
 
-    private INode root;
-    private Comparator<? super T> comparator;
+    private INode<T> root;
+    private final Comparator<? super T> comparator;
     private int size;
 
     /**
@@ -41,17 +41,15 @@ public class BinarySearchTree<T extends Comparable<T>> {
     /**
      * Appends all the collection in the specified collection to the tree ordered by given strategy of tree.
      * @param collection collection containing collection to be added to this list
-     * @return true if this tree changed as a result of the call
      */
-    public boolean addAll(Iterable<T> collection) {
+    public void addAll(Iterable<T> collection) {
         if (null == collection) throw new NullPointerException();
 
         Iterator<T> iterator = collection.iterator();
         while (iterator.hasNext()) {
             T element = iterator.next();
-            if (null != element) add(element);
+            if (element != null) add(element);
         }
-        return true;
     }
 
     /**
@@ -61,8 +59,8 @@ public class BinarySearchTree<T extends Comparable<T>> {
      * @return 0 / +ve / -ve value depending on comparison
      */
     private int compare(Object e1, Object e2) {
-        return comparator == null ? ((Comparable<? super T>) e1).compareTo((T) e2)
-                : comparator.compare((T) e1, (T) e2);
+        if (comparator == null) return ((Comparable<? super T>) e1).compareTo((T) e2);
+        return comparator.compare((T) e1, (T) e2);
     }
 
     /**
@@ -78,7 +76,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
      * @return True if tree contains no elements
      */
     public boolean isEmpty() {
-        return 0 == size;
+        return size == 0;
     }
 
     /**
@@ -96,9 +94,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public boolean add(T element) {
         if(isEmpty()){
-            root = new Node(element);
+            root = new Node<>(element);
         }else{
-            INode newNode = new Node(element);
+            INode<T> newNode = new Node<>(element);
             root.add(root, newNode);
         }
         size++;
@@ -130,7 +128,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
      * Returns root of the binary search tree.
      * @return root of tree.
      */
-    public INode getRoot() {
+    public INode<T> getRoot() {
         return root;
     }
 
