@@ -66,7 +66,7 @@ public class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student object) {
-        return Double.compare(this.getRedId(),(object.getRedId()));
+        return Integer.compare(this.getRedId(),(object.getRedId()));
     }
 
     @Override

@@ -6,7 +6,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * Binary search tree implementation with Null Object Pattern to avoid the null checks.
+ * Binary search tree implementation with Null Object Pattern, Strategy Pattern,
+ * Visitor Pattern and Internal iterator.
  * @param <T> the type of elements in this tree
  * @author Anuj Kawane <akawane0813@sdsu.edu>
  */
